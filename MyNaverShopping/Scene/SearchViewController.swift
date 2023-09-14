@@ -183,7 +183,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return }
         let vc = DetailViewController()
         let item = searchResult.items[indexPath.item]
-        vc.data = item
+        vc.productId = item.productId
+        vc.itemTitle = item.title
         
         navigationController?.pushViewController(vc, animated: true)
     }

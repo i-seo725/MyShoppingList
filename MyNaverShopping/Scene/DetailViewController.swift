@@ -13,14 +13,15 @@ class DetailViewController: BaseViewController {
     var webView = WKWebView()
     var isLiked = false
     var likeBarButton: UIBarButtonItem!
-    var data: ItemList?
+    var itemTitle: String?
+    var productId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let data else { return }
-        navigationItem.title = data.title.htmlEscaped
-        let url = URL(string: "https://msearch.shopping.naver.com/product/" + data.productId)
+        guard let productId, let itemTitle else { return }
+        navigationItem.title = itemTitle.htmlEscaped
+        let url = URL(string: "https://msearch.shopping.naver.com/product/" + productId)
         let request = URLRequest(url: url!)
         webView.load(request)
     

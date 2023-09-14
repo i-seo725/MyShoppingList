@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class LikeViewController: BaseViewController {
 
@@ -37,11 +38,16 @@ class LikeViewController: BaseViewController {
         return layout
     }
     
+    let realm = try! Realm()
+    var likeTable: Results<LikedItem>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
         searchBar.delegate = self
+        
+        likeTable = realm.objects(LikedItem.self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,26 +79,29 @@ class LikeViewController: BaseViewController {
 
 extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10 //likeTable.count
+        return likeTable.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
         
-//        let item = likeTable[indexPath.item]
-//
-//        cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        cell.titleLabel.text = item.title.htmlEscaped
-//        cell.mallLabel.text = item.mallName
-//        cell.priceLabel.text = cell.numToDec(num: item.price)
+        let item = likeTable[indexPath.item]
+
+        cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        cell.titleLabel.text = item.title.htmlEscaped
+        cell.mallLabel.text = item.mallName
+        cell.priceLabel.text = cell.numToDec(num: item.price)
+        cell.productImage.image = loadImageFromDocument(fileName: "\(item.productId).jpg")
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailViewController()
+        let item = likeTable[indexPath.item]
         vc.isLiked = true
-        vc.data = ItemList(title: "", image: "", mallName: "", productId: "", lprice: "") //likeTable[indexPath.item]
+        vc.productId = item.productId
+        vc.itemTitle = item.title
         
         navigationController?.pushViewController(vc, animated: true)
     }
