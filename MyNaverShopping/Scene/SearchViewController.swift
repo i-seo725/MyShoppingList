@@ -1,0 +1,189 @@
+//
+//  ViewController.swift
+//  MyNaverShopping
+//
+//  Created by 이은서 on 2023/09/15.
+//
+
+import UIKit
+import RealmSwift
+
+class SearchViewController: BaseViewController {
+
+    let searchBar = {
+        let view = UISearchBar()
+        view.placeholder = "검색어를 입력하세요"
+        view.searchTextField.borderStyle = .roundedRect
+        view.showsCancelButton = true
+        view.tintColor = .white
+        view.searchTextField.textColor = .white
+        view.searchTextField.tintColor = .white
+        view.searchBarStyle = .minimal
+        return view
+    }()
+    lazy var collectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout())
+        view.register(DisplayItemCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.backgroundColor = .black
+        return view
+    }()
+    func layout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 20
+        let size = UIScreen.main.bounds.width - 30
+        layout.itemSize = CGSize(width: size / 2 , height: (size / 2) * 1.42)
+        return layout
+    }
+    let buttonsView = ButtonsView()
+    
+    let realm = try! Realm()
+    var sort: Sort = .sim
+    var searchResult = Items(total: 0, start: 0, items: [])
+    var startPoint = 1
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.prefetchDataSource = self
+    
+        searchBar.delegate = self
+    }
+
+    override func configView() {
+        view.addSubview(searchBar)
+        view.addSubview(collectionView)
+        view.addSubview(buttonsView)
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.title = "상품 검색"
+        buttonsView.accuracySortButton.addTarget(self, action: #selector(simButtonTapped), for: .touchUpInside)
+        buttonsView.dateSortButton.addTarget(self, action: #selector(dateButtonTapped), for: .touchUpInside)
+        buttonsView.highestPriceSortButton.addTarget(self, action: #selector(highestButtonTapped), for: .touchUpInside)
+        buttonsView.lowestPriceSortButton.addTarget(self, action: #selector(lowestButtonTapped), for: .touchUpInside)
+    }
+    
+    override func setConstraints() {
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
+        }
+        buttonsView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(14)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+        }
+        collectionView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(buttonsView.snp.bottom).offset(14)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+        }
+    }
+    
+    @objc func simButtonTapped() {
+        buttonsView.switchColor(buttonsView.accuracySortButton)
+        sort = .sim
+        NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .sim) { data in
+            self.searchResult = data
+            self.collectionView.reloadData()
+        }
+    }
+    
+    @objc func dateButtonTapped() {
+        buttonsView.switchColor(buttonsView.dateSortButton)
+        sort = .date
+        NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .date) { data in
+            self.searchResult = data
+            self.collectionView.reloadData()
+        }
+    }
+    
+    @objc func highestButtonTapped() {
+        buttonsView.switchColor(buttonsView.highestPriceSortButton)
+        sort = .dsc
+        NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .dsc) { data in
+            self.searchResult = data
+            self.collectionView.reloadData()
+        }
+    }
+  
+    @objc func lowestButtonTapped() {
+        buttonsView.switchColor(buttonsView.lowestPriceSortButton)
+        sort = .asc
+        NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .asc) { data in
+            self.searchResult = data
+            self.collectionView.reloadData()
+        }
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return searchResult.items.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
+        
+        let item = searchResult.items[indexPath.item]
+        cell.mallLabel.text = item.mallName
+        cell.titleLabel.text = item.title.htmlEscaped
+        cell.priceLabel.text = cell.numToDec(num: item.lprice)
+        if let url = URL(string: item.image) {
+            DispatchQueue.global().async {
+                let data = try! Data(contentsOf: url)
+                DispatchQueue.main.async {
+                    cell.productImage.image = UIImage(data: data)
+                }
+            }
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return }
+        let vc = DetailViewController()
+        let item = searchResult.items[indexPath.item]
+        vc.data = item
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for i in indexPaths {
+            print(indexPaths)
+            if searchResult.items.count - 1 == i.item {
+                if let text = searchBar.text {
+                    startPoint += 30
+                    NetworkManager.shared.callRequest(query: text, startPoint: startPoint, sort: sort) { data in
+                        self.searchResult.items.append(contentsOf: data.items)
+                        collectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        startPoint = 1
+        guard let text = searchBar.text else {
+            print("유효한 검색어를 입력해주세요")
+            return
+        }
+        NetworkManager.shared.callRequest(query: text) { data in
+            self.searchResult = data
+            self.collectionView.reloadData()
+        }
+        view.endEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        view.endEditing(true)
+    }
+    
+}
