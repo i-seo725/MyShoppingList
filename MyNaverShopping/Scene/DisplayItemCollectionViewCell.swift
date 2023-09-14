@@ -57,6 +57,7 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    var completionHandler: ((UIButton) -> Void)?
     var isLiked = false
     
     func makeCircle(_ view: UIView) {
@@ -92,7 +93,7 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func likeButtonTapped() {
-        print("좋아요 버튼 클릭")
+        completionHandler?(likeButton)
     }
     
     func setConstraints() {

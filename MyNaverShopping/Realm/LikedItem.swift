@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 class LikedItem: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var title: String
     @Persisted var productId: String
     @Persisted var mallName: String

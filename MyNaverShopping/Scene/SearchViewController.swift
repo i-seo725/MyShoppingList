@@ -49,6 +49,7 @@ class SearchViewController: BaseViewController {
         collectionView.prefetchDataSource = self
     
         searchBar.delegate = self
+        
     }
 
     override func configView() {
@@ -126,6 +127,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
         
         let item = searchResult.items[indexPath.item]
+        let likeData = LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.lprice, image: item.image)
         cell.mallLabel.text = item.mallName
         cell.titleLabel.text = item.title.htmlEscaped
         cell.priceLabel.text = cell.numToDec(num: item.lprice)
@@ -134,9 +136,46 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 let data = try! Data(contentsOf: url)
                 DispatchQueue.main.async {
                     cell.productImage.image = UIImage(data: data)
+                    
+                    cell.completionHandler = {
+                        switch cell.isLiked {
+                        case true:
+                            print("클릭 true")
+                            cell.isLiked = false
+                            $0.setImage(UIImage(systemName: "heart"), for: .normal)
+                            self.removeImageFromDocument(fileName: "\(item.productId).jpg")
+                            
+                            do {
+                                try self.realm.write {
+                                    self.realm.delete(likeData)
+                                }
+                            } catch {
+                                print(error)
+                            }
+                            
+                          
+                        case false:
+                            print("클릭 false")
+                            cell.isLiked = true
+                            self.saveImageToDocument(fileName: "\(item.productId).jpg", image: cell.productImage.image ?? UIImage(systemName: "xmark")!)
+                            $0.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                            
+                            do {
+                                try self.realm.write {
+                                    self.realm.add(likeData)
+                                }
+                            } catch {
+                                print(error)
+                            }
+                        }
+                       
+                    }
                 }
             }
         }
+        
+      
+        
         return cell
     }
     
