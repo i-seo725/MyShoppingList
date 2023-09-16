@@ -92,6 +92,22 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.mallLabel.text = item.mallName
         cell.priceLabel.text = cell.numToDec(num: item.price)
         cell.productImage.image = loadImageFromDocument(fileName: "\(item.productId).jpg")
+        cell.completionHandler = { _ in
+            print("클릭 true")
+            self.removeImageFromDocument(fileName: "\(item.productId).jpg")
+            
+            do {
+                try self.realm.write {
+                    let like = self.realm.objects(LikedItem.self).where {
+                        $0.productId == item.productId
+                        }
+                    self.realm.delete(like)
+                }
+                collectionView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
         
         return cell
     }
