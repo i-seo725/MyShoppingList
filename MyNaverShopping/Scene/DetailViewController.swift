@@ -21,6 +21,8 @@ class DetailViewController: BaseViewController {
     var thumbImage: UIImage?
     
     var selectedItem: LikedItem?
+    lazy var temp = selectedItem
+    var likeTable: Results<LikedItem>?
     var resultItem: ItemList?
     
     override func viewDidLoad() {
@@ -31,7 +33,7 @@ class DetailViewController: BaseViewController {
         let url = URL(string: "https://msearch.shopping.naver.com/product/" + productId)
         let request = URLRequest(url: url!)
         webView.load(request)
-    
+        likeTable = realm.objects(LikedItem.self)
         likeBarButton.image = isLiked ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
     }
     
@@ -70,7 +72,7 @@ class DetailViewController: BaseViewController {
                 return }
             switch isLiked {
             case true:
-                print("클릭 true")
+                isLiked = false
                 likeBarButton.image = UIImage(systemName: "heart")
                 self.removeImageFromDocument(fileName: "\(resultItem.productId).jpg")
                 isLiked = false
@@ -86,8 +88,7 @@ class DetailViewController: BaseViewController {
                 }
                 
             case false:
-                print("클릭 false")
-                print(thumbImage)
+                isLiked = true
                 self.saveImageToDocument(fileName: "\(resultItem.productId).jpg", image: thumbImage)
                 likeBarButton.image = UIImage(systemName: "heart.fill")
                 
@@ -100,38 +101,33 @@ class DetailViewController: BaseViewController {
                 }
             }
         case .like:
-            print("클릭 true")
-            guard let item = selectedItem, let thumbImage, let productId else { return }
+            guard let item = selectedItem, let temp, let thumbImage, let id = productId else { return }
            
             switch isLiked {
             case true:
                 likeBarButton.image = UIImage(systemName: "heart")
-                self.removeImageFromDocument(fileName: "\(item.productId).jpg")
+                self.removeImageFromDocument(fileName: "\(temp.productId).jpg")
                 isLiked = false
                 do {
                     try self.realm.write {
-                        let like = self.realm.objects(LikedItem.self).where {
-                            $0.productId == item.productId
-                            }
-                        self.realm.delete(like)
+                        self.realm.delete(temp)
                     }
                 } catch {
                     print(error)
                 }
                 
             case false:
-                print("클릭 false")
-                print(thumbImage)
-                self.saveImageToDocument(fileName: "\(item.productId).jpg", image: thumbImage)
-                likeBarButton.image = UIImage(systemName: "heart.fill")
-                
+                isLiked = true
                 do {
                     try self.realm.write {
-                        self.realm.add(LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.price, image: item.image))
+                        self.realm.add(item)
                     }
                 } catch {
                     print(error)
                 }
+                
+                self.saveImageToDocument(fileName: "\(item.productId).jpg", image: thumbImage)
+                likeBarButton.image = UIImage(systemName: "heart.fill")
             }
             
         }

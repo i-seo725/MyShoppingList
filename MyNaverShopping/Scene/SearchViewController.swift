@@ -128,8 +128,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
         
         let item = searchResult.items[indexPath.item]
-        let likeData = LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.lprice, image: item.image)
-        
         let like = likeTable.where { data in
             data.productId == item.productId
         }.first
@@ -141,6 +139,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.mallLabel.text = item.mallName
         cell.titleLabel.text = item.title.htmlEscaped
         cell.priceLabel.text = cell.numToDec(num: item.lprice)
+        
         if let url = URL(string: item.image) {
             DispatchQueue.global().async {
                 let data = try! Data(contentsOf: url)
@@ -157,7 +156,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                             
                             do {
                                 try self.realm.write {
-                                    self.realm.delete(likeData)
+                                    let like = self.realm.objects(LikedItem.self).where {
+                                        $0.productId == item.productId
+                                        }
+                                    self.realm.delete(like)
                                 }
                             } catch {
                                 print(error)
@@ -172,7 +174,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                             
                             do {
                                 try self.realm.write {
-                                    self.realm.add(likeData)
+                                    self.realm.add(LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.lprice, image: item.image))
                                 }
                             } catch {
                                 print(error)
@@ -232,7 +234,7 @@ extension SearchViewController: UISearchBarDelegate {
             print("유효한 검색어를 입력해주세요")
             return
         }
-        NetworkManager.shared.callRequest(query: text) { data in
+        NetworkManager.shared.callRequest(query: text, sort: sort) { data in
             self.searchResult = data
             self.collectionView.reloadData()
         }

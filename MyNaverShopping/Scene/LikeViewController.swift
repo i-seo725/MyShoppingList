@@ -123,7 +123,6 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         vc.scene = .like
         vc.selectedItem = item
         vc.thumbImage = loadImageFromDocument(fileName: "\(item.productId).jpg")
-        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
