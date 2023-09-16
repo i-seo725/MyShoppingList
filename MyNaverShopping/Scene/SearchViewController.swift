@@ -38,6 +38,7 @@ class SearchViewController: BaseViewController {
     let buttonsView = ButtonsView()
     
     let realm = try! Realm()
+    var likeTable: Results<LikedItem>!
     var sort: Sort = .sim
     var searchResult = Items(total: 0, start: 0, items: [])
     var startPoint = 1
@@ -49,7 +50,7 @@ class SearchViewController: BaseViewController {
         collectionView.prefetchDataSource = self
     
         searchBar.delegate = self
-        
+        likeTable = realm.objects(LikedItem.self)
     }
 
     override func configView() {
@@ -128,6 +129,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let item = searchResult.items[indexPath.item]
         let likeData = LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.lprice, image: item.image)
+        
+        let like = likeTable.where { data in
+            data.productId == item.productId
+        }.first
+        
+        if let like {
+            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
+        
         cell.mallLabel.text = item.mallName
         cell.titleLabel.text = item.title.htmlEscaped
         cell.priceLabel.text = cell.numToDec(num: item.lprice)
