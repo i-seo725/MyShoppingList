@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+import RealmSwift
 
 class DetailViewController: BaseViewController {
     
@@ -15,6 +16,12 @@ class DetailViewController: BaseViewController {
     var likeBarButton: UIBarButtonItem!
     var itemTitle: String?
     var productId: String?
+    let realm = try! Realm()
+    var scene: Present = .like
+    var thumbImage: UIImage?
+    
+    var selectedItem: LikedItem?
+    var resultItem: ItemList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +64,79 @@ class DetailViewController: BaseViewController {
     
     @objc func likeBarButtonClicked() {
         print("좋아요 바 버튼 클릭")
+        switch scene {
+        case .search:
+            guard let resultItem, let thumbImage else {
+                return }
+            switch isLiked {
+            case true:
+                print("클릭 true")
+                likeBarButton.image = UIImage(systemName: "heart")
+                self.removeImageFromDocument(fileName: "\(resultItem.productId).jpg")
+                isLiked = false
+                do {
+                    try self.realm.write {
+                        let like = self.realm.objects(LikedItem.self).where {
+                            $0.productId == resultItem.productId
+                            }
+                        self.realm.delete(like)
+                    }
+                } catch {
+                    print(error)
+                }
+                
+            case false:
+                print("클릭 false")
+                print(thumbImage)
+                self.saveImageToDocument(fileName: "\(resultItem.productId).jpg", image: thumbImage)
+                likeBarButton.image = UIImage(systemName: "heart.fill")
+                
+                do {
+                    try self.realm.write {
+                        self.realm.add(LikedItem(title: resultItem.title, productId: resultItem.productId, mallName: resultItem.mallName, price: resultItem.lprice, image: resultItem.image))
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        case .like:
+            print("클릭 true")
+            guard let item = selectedItem, let thumbImage, let productId else { return }
+           
+            switch isLiked {
+            case true:
+                likeBarButton.image = UIImage(systemName: "heart")
+                self.removeImageFromDocument(fileName: "\(item.productId).jpg")
+                isLiked = false
+                do {
+                    try self.realm.write {
+                        let like = self.realm.objects(LikedItem.self).where {
+                            $0.productId == item.productId
+                            }
+                        self.realm.delete(like)
+                    }
+                } catch {
+                    print(error)
+                }
+                
+            case false:
+                print("클릭 false")
+                print(thumbImage)
+                self.saveImageToDocument(fileName: "\(item.productId).jpg", image: thumbImage)
+                likeBarButton.image = UIImage(systemName: "heart.fill")
+                
+                do {
+                    try self.realm.write {
+                        self.realm.add(LikedItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.price, image: item.image))
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+            
+        }
+        
+        
     }
     
     

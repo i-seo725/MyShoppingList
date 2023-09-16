@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F45F3A582AB5BDEA00EB8AFA /* PresentEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F3A572AB5BDEA00EB8AFA /* PresentEnum.swift */; };
 		F4CAA6A32AB37DA200739474 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6A22AB37DA200739474 /* AppDelegate.swift */; };
 		F4CAA6A52AB37DA200739474 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6A42AB37DA200739474 /* SceneDelegate.swift */; };
 		F4CAA6A72AB37DA200739474 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6A62AB37DA200739474 /* SearchViewController.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F45F3A572AB5BDEA00EB8AFA /* PresentEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentEnum.swift; sourceTree = "<group>"; };
 		F4CAA69F2AB37DA200739474 /* MyNaverShopping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyNaverShopping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CAA6A22AB37DA200739474 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4CAA6A42AB37DA200739474 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				F4CAA6D72AB381AA00739474 /* SortEnum.swift */,
 				F4CAA6DD2AB3843E00739474 /* htmlEscape+Extension.swift */,
 				F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */,
+				F45F3A572AB5BDEA00EB8AFA /* PresentEnum.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F45F3A582AB5BDEA00EB8AFA /* PresentEnum.swift in Sources */,
 				F4CAA6E52AB38AC100739474 /* FileManager+Extension.swift in Sources */,
 				F4CAA6DA2AB382B700739474 /* NetworkManager.swift in Sources */,
 				F4CAA6DE2AB3843E00739474 /* htmlEscape+Extension.swift in Sources */,
