@@ -25,7 +25,7 @@ class DetailViewController: BaseViewController {
         let request = URLRequest(url: url!)
         webView.load(request)
     
-
+        likeBarButton.image = isLiked ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
     }
     
     override func configView() {

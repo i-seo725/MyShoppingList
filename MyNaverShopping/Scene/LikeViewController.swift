@@ -39,6 +39,7 @@ class LikeViewController: BaseViewController {
     }
     
     let realm = try! Realm()
+    var allLikeTable: Results<LikedItem>!
     var likeTable: Results<LikedItem>!
     
     override func viewDidLoad() {
@@ -47,6 +48,7 @@ class LikeViewController: BaseViewController {
         collectionView.delegate = self
         searchBar.delegate = self
         
+        allLikeTable = realm.objects(LikedItem.self)
         likeTable = realm.objects(LikedItem.self)
     }
     
@@ -128,13 +130,20 @@ extension LikeViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else { return }
-        print(text)
+        if text.count == 0 {
+            likeTable = allLikeTable
+        }
+        let result = allLikeTable.where {
+            $0.title.contains(text)
+        }
+        likeTable = result
         collectionView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         view.endEditing(true)
+        likeTable = allLikeTable
         collectionView.reloadData()
     }
 }
