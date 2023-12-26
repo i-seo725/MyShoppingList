@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             items[1].title = "좋아요"
         }
         
-        let vc = SearchViewController()
+//        let vc = SearchViewController()
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }

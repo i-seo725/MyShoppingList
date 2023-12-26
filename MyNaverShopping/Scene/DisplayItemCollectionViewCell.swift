@@ -54,23 +54,17 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
         view.setImage(UIImage(systemName: "heart"), for: .normal)
         view.tintColor = .black
         view.clipsToBounds = true
+        view.layer.cornerRadius = 35/2
         return view
     }()
     
     var completionHandler: ((UIButton) -> Void)?
     var isLiked = false
     
-    func makeCircle(_ view: UIView) {
-        DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.width / 2
-        }
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configView()
         setConstraints()
-        makeCircle(likeButton)
     }
     
     required init?(coder: NSCoder) {
@@ -79,7 +73,6 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         productImage.image = nil
-        makeCircle(likeButton)
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
     }
     
