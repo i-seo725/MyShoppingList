@@ -18,9 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mainViewController = UINavigationController(rootViewController: SearchViewController())
         let secondViewController = UINavigationController(rootViewController: LikeViewController())
+        let thirdViewController = UINavigationController(rootViewController: RecentViewController())
         
         let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainViewController, secondViewController], animated: true)
+        tabBarController.setViewControllers([mainViewController, secondViewController, thirdViewController], animated: true)
         tabBarController.tabBar.tintColor = .sky
         
         if let items = tabBarController.tabBar.items {
@@ -29,6 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             items[1].image = UIImage(systemName: "heart")
             items[1].title = "좋아요"
+            
+            items[2].image = UIImage(systemName: "clock.arrow.circlepath")
+            items[2].title = "최근 본 상품"
         }
         
 //        let vc = SearchViewController()

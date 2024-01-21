@@ -34,6 +34,7 @@
 		F4CAA6E52AB38AC100739474 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */; };
 		F4DDD3432BA32EA400AA880D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DDD3422BA32EA400AA880D /* UIColor+Extension.swift */; };
 		F4E1EF202BA3386400573024 /* SearchDisplayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1EF1F2BA3386400573024 /* SearchDisplayTableViewCell.swift */; };
+		F4E1EF222BA3386400573024 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1EF212BA3386400573024 /* RecentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		F4DDD3422BA32EA400AA880D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		F4E1EF1F2BA3386400573024 /* SearchDisplayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDisplayTableViewCell.swift; sourceTree = "<group>"; };
+		F4E1EF212BA3386400573024 /* RecentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				F4CAA6D32AB380E100739474 /* LikeViewController.swift */,
 				F4CAA6DF2AB3867700739474 /* DetailViewController.swift */,
 				F4E1EF1F2BA3386400573024 /* SearchDisplayTableViewCell.swift */,
+				F4E1EF212BA3386400573024 /* RecentViewController.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				F4CAA6C42AB37EA600739474 /* APIKey.swift in Sources */,
 				F4CAA6D82AB381AA00739474 /* SortEnum.swift in Sources */,
 				F4CAA6D22AB3806400739474 /* DisplayItemCollectionViewCell.swift in Sources */,
+				F4E1EF222BA3386400573024 /* RecentViewController.swift in Sources */,
 				F4CAA6A52AB37DA200739474 /* SceneDelegate.swift in Sources */,
 				F4E1EF202BA3386400573024 /* SearchDisplayTableViewCell.swift in Sources */,
 				F4CAA6E02AB3867700739474 /* DetailViewController.swift in Sources */,
