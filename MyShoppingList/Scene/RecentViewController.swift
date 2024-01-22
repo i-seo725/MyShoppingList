@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 class RecentViewController: BaseViewController {
     
@@ -37,10 +38,16 @@ class RecentViewController: BaseViewController {
     }
     
     let realm = try! Realm()
+    var recentTable: Results<RecentItem>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        recentTable = realm.objects(RecentItem.self).sorted(by: \.date, ascending: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
     }
     
     override func configView() {
@@ -68,50 +75,34 @@ class RecentViewController: BaseViewController {
 extension RecentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return recentTable.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.backgroundColor = .sky
+
         
-//        let item = likeTable[indexPath.item]
-//
-//        cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        cell.titleLabel.text = item.title.htmlEscaped
-//        cell.mallLabel.text = item.mallName
-//        cell.priceLabel.text = cell.numToDec(num: item.price)
-//        cell.productImage.image = loadImageFromDocument(fileName: "\(item.productId).jpg")
-//        cell.completionHandler = { _ in
-//            print("클릭 true")
-//            self.removeImageFromDocument(fileName: "\(item.productId).jpg")
-//            
-//            do {
-//                try self.realm.write {
-//                    let like = self.realm.objects(LikedItem.self).where {
-//                        $0.productId == item.productId
-//                        }
-//                    self.realm.delete(like)
-//                }
-//                collectionView.reloadData()
-//            } catch {
-//                print(error)
-//            }
-//        }
+        let item = recentTable[indexPath.item]
+
+        cell.likeButton.isHidden = true
+        cell.titleLabel.text = item.title.htmlEscaped
+        cell.mallLabel.text = item.mallName
+        cell.priceLabel.text = cell.numToDec(num: item.price)
+        cell.productImage.kf.setImage(with: URL(string: item.image))
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let vc = DetailViewController()
-//        let item = likeTable[indexPath.item]
-//        vc.isLiked = true
-//        vc.productId = item.productId
-//        vc.itemTitle = item.title
-//        vc.scene = .like
+        let vc = DetailViewController()
+        let item = recentTable[indexPath.item]
+        vc.isLiked = true
+        vc.productId = item.productId
+        vc.itemTitle = item.title
+        vc.scene = .like
 //        vc.selectedItem = item
-//        vc.thumbImage = loadImageFromDocument(fileName: "\(item.productId).jpg")
-//        navigationController?.pushViewController(vc, animated: true)
+        vc.thumbImage = loadImageFromDocument(fileName: "\(item.productId).jpg")
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

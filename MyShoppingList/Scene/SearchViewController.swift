@@ -44,6 +44,7 @@ class SearchViewController: BaseViewController {
         listTableView.prefetchDataSource = self
         searchBar.delegate = self
         likeTable = realm.objects(LikedItem.self)
+        print(documentDirectoryPath())
     }
 
     override func configView() {
@@ -185,8 +186,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = listTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchDisplayTableViewCell else { return }
-        let vc = DetailViewController()
         let item = searchResult.items[indexPath.item]
+        
+        do {
+            try self.realm.write {
+                self.realm.add(RecentItem(title: item.title, productId: item.productId, mallName: item.mallName, price: item.lprice, image: item.image))
+            }
+        } catch {
+            print(error)
+        }
+        
+        let vc = DetailViewController()
         if let url = URL(string: item.image) {
             DispatchQueue.global().async {
                 let data = try! Data(contentsOf: url)

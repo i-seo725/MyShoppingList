@@ -14,9 +14,9 @@ class RecentItem: Object {
     @Persisted var mallName: String
     @Persisted var price: String
     @Persisted var image: String
-    @Persisted var num: Int
+    @Persisted var date: Date
     
-    convenience init(title: String, productId: String, mallName: String, price: String, image: String, num: Int = 0) {
+    convenience init(title: String, productId: String, mallName: String, price: String, image: String, date: Date = Date()) {
         
         self.init()
         self.title = title
@@ -24,6 +24,6 @@ class RecentItem: Object {
         self.mallName = mallName
         self.price = price
         self.image = image
-        self.num = num
+        self.date = date
     }
 }
