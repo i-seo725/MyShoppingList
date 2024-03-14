@@ -26,7 +26,7 @@ class SortButton: UIButton {
     }
     
     func setNormalColor() {
-        layer.borderColor = UIColor.lightGray.cgColor
+        layer.borderColor = UIColor.sky.cgColor
         setTitleColor(.white, for: .normal)
         backgroundColor = .sky
     }
