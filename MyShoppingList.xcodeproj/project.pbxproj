@@ -32,6 +32,7 @@
 		F4CAA6E02AB3867700739474 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6DF2AB3867700739474 /* DetailViewController.swift */; };
 		F4CAA6E32AB3893100739474 /* LikedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6E22AB3893100739474 /* LikedItem.swift */; };
 		F4CAA6E52AB38AC100739474 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */; };
+		F4DDD3432BA32EA400AA880D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DDD3422BA32EA400AA880D /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		F4CAA6DF2AB3867700739474 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F4CAA6E22AB3893100739474 /* LikedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedItem.swift; sourceTree = "<group>"; };
 		F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		F4DDD3422BA32EA400AA880D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				F4CAA6D72AB381AA00739474 /* SortEnum.swift */,
 				F4CAA6DD2AB3843E00739474 /* htmlEscape+Extension.swift */,
 				F4CAA6E42AB38AC100739474 /* FileManager+Extension.swift */,
+				F4DDD3422BA32EA400AA880D /* UIColor+Extension.swift */,
 				F45F3A572AB5BDEA00EB8AFA /* PresentEnum.swift */,
 			);
 			path = Swift;
@@ -252,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F45F3A582AB5BDEA00EB8AFA /* PresentEnum.swift in Sources */,
+				F4DDD3432BA32EA400AA880D /* UIColor+Extension.swift in Sources */,
 				F4CAA6E52AB38AC100739474 /* FileManager+Extension.swift in Sources */,
 				F4CAA6DA2AB382B700739474 /* NetworkManager.swift in Sources */,
 				F4CAA6DE2AB3843E00739474 /* htmlEscape+Extension.swift in Sources */,
