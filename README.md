@@ -18,22 +18,19 @@
  <br/>
 
 ## 개발 기간
- * 2023.09.25. ~ 2023.10.24.
+ * 2023.09.07. ~ 2023.09.11.
 <br/>
-
 
 ## 개발환경
   * Xcode 14.3.1
   * Supported Destinations : iPhone
-  * Minimum Deployments : 15.0
+  * Minimum Deployments : 13.0
   * Orientation : Portrait
 <br/>
 
 
 ## 사용기술 및 라이브러리
- * UIKit, Snapkit, Realm, FSCalendar
- * MVVM, Repository Pattern, Localization
- * Firebase Analytics, Firebase Crashlytics, Firebase Cloud messaging
+ * UIKit, Snapkit, Realm, Alamofire, MVC
  <br/>
  
 ## 트러블 슈팅     
