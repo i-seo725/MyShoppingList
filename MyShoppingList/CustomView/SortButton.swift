@@ -27,14 +27,14 @@ class SortButton: UIButton {
     
     func setNormalColor() {
         layer.borderColor = UIColor.sky.cgColor
-        setTitleColor(.white, for: .normal)
-        backgroundColor = .sky
+        setTitleColor(.gray, for: .normal)
+        backgroundColor = .clear
     }
     
     func setSelectedColor() {
-        layer.borderColor = UIColor.gold.cgColor
-        backgroundColor = .gold
-        setTitleColor(.black, for: .normal)
+        layer.borderColor = UIColor.sky.cgColor
+        backgroundColor = .sky
+        setTitleColor(.white, for: .normal)
     }
     
 }
