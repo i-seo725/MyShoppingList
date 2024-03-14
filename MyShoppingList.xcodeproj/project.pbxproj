@@ -36,7 +36,7 @@
 
 /* Begin PBXFileReference section */
 		F45F3A572AB5BDEA00EB8AFA /* PresentEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentEnum.swift; sourceTree = "<group>"; };
-		F4CAA69F2AB37DA200739474 /* MyNaverShopping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyNaverShopping.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4CAA69F2AB37DA200739474 /* MyShoppingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyShoppingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CAA6A22AB37DA200739474 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4CAA6A42AB37DA200739474 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F4CAA6A62AB37DA200739474 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 		F4CAA6A02AB37DA200739474 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F4CAA69F2AB37DA200739474 /* MyNaverShopping.app */,
+				F4CAA69F2AB37DA200739474 /* MyShoppingList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,7 +106,8 @@
 				F4CAA6AD2AB37DA200739474 /* LaunchScreen.storyboard */,
 				F4CAA6B02AB37DA200739474 /* Info.plist */,
 			);
-			path = MyNaverShopping;
+			name = MyNaverShopping;
+			path = MyShoppingList;
 			sourceTree = "<group>";
 		};
 		F4CAA6C52AB37EBD00739474 /* Network */ = {
@@ -171,9 +172,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F4CAA69E2AB37DA200739474 /* MyNaverShopping */ = {
+		F4CAA69E2AB37DA200739474 /* MyShoppingList */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F4CAA6B32AB37DA200739474 /* Build configuration list for PBXNativeTarget "MyNaverShopping" */;
+			buildConfigurationList = F4CAA6B32AB37DA200739474 /* Build configuration list for PBXNativeTarget "MyShoppingList" */;
 			buildPhases = (
 				F4CAA69B2AB37DA200739474 /* Sources */,
 				F4CAA69C2AB37DA200739474 /* Frameworks */,
@@ -183,7 +184,7 @@
 			);
 			dependencies = (
 			);
-			name = MyNaverShopping;
+			name = MyShoppingList;
 			packageProductDependencies = (
 				F4CAA6B72AB37DD300739474 /* SnapKit */,
 				F4CAA6BA2AB37DDA00739474 /* Alamofire */,
@@ -191,7 +192,7 @@
 				F4CAA6BF2AB37E0800739474 /* RealmSwift */,
 			);
 			productName = MyNaverShopping;
-			productReference = F4CAA69F2AB37DA200739474 /* MyNaverShopping.app */;
+			productReference = F4CAA69F2AB37DA200739474 /* MyShoppingList.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -209,7 +210,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F4CAA69A2AB37DA200739474 /* Build configuration list for PBXProject "MyNaverShopping" */;
+			buildConfigurationList = F4CAA69A2AB37DA200739474 /* Build configuration list for PBXProject "MyShoppingList" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -227,7 +228,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F4CAA69E2AB37DA200739474 /* MyNaverShopping */,
+				F4CAA69E2AB37DA200739474 /* MyShoppingList */,
 			);
 		};
 /* End PBXProject section */
@@ -466,7 +467,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F4CAA69A2AB37DA200739474 /* Build configuration list for PBXProject "MyNaverShopping" */ = {
+		F4CAA69A2AB37DA200739474 /* Build configuration list for PBXProject "MyShoppingList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4CAA6B12AB37DA200739474 /* Debug */,
@@ -475,7 +476,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F4CAA6B32AB37DA200739474 /* Build configuration list for PBXNativeTarget "MyNaverShopping" */ = {
+		F4CAA6B32AB37DA200739474 /* Build configuration list for PBXNativeTarget "MyShoppingList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4CAA6B42AB37DA200739474 /* Debug */,
