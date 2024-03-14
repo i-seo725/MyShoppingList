@@ -8,6 +8,6 @@
 import UIKit
 
 extension UIColor {
-    static let sky = UIColor(named: "sky")
-    static let gold = UIColor(named: "gold")
+    static let sky = UIColor(named: "sky")!
+    static let gold = UIColor(named: "gold")!
 }

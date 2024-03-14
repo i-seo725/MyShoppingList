@@ -21,12 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([mainViewController, secondViewController], animated: true)
-        tabBarController.tabBar.tintColor = .white
+        tabBarController.tabBar.tintColor = .sky
         
         if let items = tabBarController.tabBar.items {
-            items[0].image = UIImage(systemName: "magnifyingglass")?.withTintColor(.white)
+            items[0].image = UIImage(systemName: "magnifyingglass")?.withTintColor(.sky)
             items[0].title = "검색"
-            
             
             items[1].image = UIImage(systemName: "heart")
             items[1].title = "좋아요"

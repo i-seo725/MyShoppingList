@@ -15,26 +15,20 @@ class SearchViewController: BaseViewController {
         view.placeholder = "검색어를 입력하세요"
         view.searchTextField.borderStyle = .roundedRect
         view.showsCancelButton = true
-        view.tintColor = .white
-        view.searchTextField.textColor = .white
-        view.searchTextField.tintColor = .white
+        view.tintColor = .sky
+        view.searchTextField.tintColor = .sky
         view.searchBarStyle = .minimal
         return view
     }()
-    lazy var collectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout())
-        view.register(DisplayItemCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        view.backgroundColor = .black
+    
+    let listTableView = {
+        let view = UITableView()
+        view.register(SearchDisplayTableViewCell.self, forCellReuseIdentifier: "cell")
+        view.rowHeight = 80
+        view.separatorStyle = .none
         return view
     }()
-    func layout() -> UICollectionViewLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 20
-        let size = UIScreen.main.bounds.width - 30
-        layout.itemSize = CGSize(width: size / 2 , height: (size / 2) * 1.42)
-        return layout
-    }
+    
     let buttonsView = ButtonsView()
     
     let realm = try! Realm()
@@ -45,19 +39,19 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.prefetchDataSource = self
-    
+        listTableView.dataSource = self
+        listTableView.delegate = self
+        listTableView.prefetchDataSource = self
         searchBar.delegate = self
         likeTable = realm.objects(LikedItem.self)
     }
 
     override func configView() {
+        super.configView()
         view.addSubview(searchBar)
-        view.addSubview(collectionView)
+        view.addSubview(listTableView)
         view.addSubview(buttonsView)
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        buttonsView.isHidden = true
         navigationItem.title = "상품 검색"
         buttonsView.accuracySortButton.addTarget(self, action: #selector(simButtonTapped), for: .touchUpInside)
         buttonsView.dateSortButton.addTarget(self, action: #selector(dateButtonTapped), for: .touchUpInside)
@@ -71,10 +65,10 @@ class SearchViewController: BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
         }
         buttonsView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(14)
+            make.top.equalTo(searchBar.snp.bottom).offset(4)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
-        collectionView.snp.makeConstraints { make in
+        listTableView.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.top.equalTo(buttonsView.snp.bottom).offset(14)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -86,7 +80,7 @@ class SearchViewController: BaseViewController {
         sort = .sim
         NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .sim) { data in
             self.searchResult = data
-            self.collectionView.reloadData()
+            self.listTableView.reloadData()
         }
     }
     
@@ -95,7 +89,7 @@ class SearchViewController: BaseViewController {
         sort = .date
         NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .date) { data in
             self.searchResult = data
-            self.collectionView.reloadData()
+            self.listTableView.reloadData()
         }
     }
     
@@ -104,7 +98,7 @@ class SearchViewController: BaseViewController {
         sort = .dsc
         NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .dsc) { data in
             self.searchResult = data
-            self.collectionView.reloadData()
+            self.listTableView.reloadData()
         }
     }
   
@@ -113,19 +107,19 @@ class SearchViewController: BaseViewController {
         sort = .asc
         NetworkManager.shared.callRequest(query: searchBar.text ?? "", sort: .asc) { data in
             self.searchResult = data
-            self.collectionView.reloadData()
+            self.listTableView.reloadData()
         }
     }
 }
 
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResult.items.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return UICollectionViewCell() }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = listTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchDisplayTableViewCell else { return UITableViewCell() }
         
         let item = searchResult.items[indexPath.item]
         let like = likeTable.where { data in
@@ -186,13 +180,11 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             }
         }
         
-      
-        
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DisplayItemCollectionViewCell else { return }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = listTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchDisplayTableViewCell else { return }
         let vc = DetailViewController()
         let item = searchResult.items[indexPath.item]
         if let url = URL(string: item.image) {
@@ -209,7 +201,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for i in indexPaths {
             print(indexPaths)
             if searchResult.items.count - 1 == i.item {
@@ -217,7 +210,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                     startPoint += 30
                     NetworkManager.shared.callRequest(query: text, startPoint: startPoint, sort: sort) { data in
                         self.searchResult.items.append(contentsOf: data.items)
-                        collectionView.reloadData()
+                        self.listTableView.reloadData()
                     }
                 }
             }
@@ -229,6 +222,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        buttonsView.isHidden = false
         startPoint = 1
         guard let text = searchBar.text else {
             print("유효한 검색어를 입력해주세요")
@@ -236,7 +230,7 @@ extension SearchViewController: UISearchBarDelegate {
         }
         NetworkManager.shared.callRequest(query: text, sort: sort) { data in
             self.searchResult = data
-            self.collectionView.reloadData()
+            self.listTableView.reloadData()
         }
         view.endEditing(true)
     }

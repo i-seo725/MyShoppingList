@@ -38,6 +38,7 @@ class DetailViewController: BaseViewController {
     }
     
     override func configView() {
+        super.configView()
         view.addSubview(webView)
         setAppearance()
     }
@@ -49,19 +50,9 @@ class DetailViewController: BaseViewController {
     }
     
     func setAppearance() {
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.backgroundColor = .black
-        navAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.standardAppearance = navAppearance
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .black
         likeBarButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(likeBarButtonClicked))
         navigationItem.rightBarButtonItem = likeBarButton
-        
-        let tabAppearance = UITabBarAppearance()
-        tabAppearance.backgroundColor = .black
-        tabBarController?.tabBar.standardAppearance = tabAppearance
     }
     
     @objc func likeBarButtonClicked() {

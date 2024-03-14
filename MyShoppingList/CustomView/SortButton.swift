@@ -21,19 +21,19 @@ class SortButton: UIButton {
     func configView() {
         layer.cornerRadius = 9
         layer.borderWidth = 1
-        titleLabel?.font = .systemFont(ofSize: 14)
+        titleLabel?.font = .systemFont(ofSize: 12)
         setNormalColor()
     }
     
     func setNormalColor() {
         layer.borderColor = UIColor.lightGray.cgColor
-        setTitleColor(.gray, for: .normal)
-        backgroundColor = .clear
+        setTitleColor(.white, for: .normal)
+        backgroundColor = .sky
     }
     
     func setSelectedColor() {
-        layer.borderColor = UIColor.white.cgColor
-        backgroundColor = .white
+        layer.borderColor = UIColor.gold.cgColor
+        backgroundColor = .gold
         setTitleColor(.black, for: .normal)
     }
     

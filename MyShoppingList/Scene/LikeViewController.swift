@@ -15,9 +15,8 @@ class LikeViewController: BaseViewController {
         view.placeholder = "검색어를 입력하세요"
         view.searchTextField.borderStyle = .roundedRect
         view.showsCancelButton = true
-        view.tintColor = .white
-        view.searchTextField.textColor = .white
-        view.searchTextField.tintColor = .white
+        view.tintColor = .sky
+        view.searchTextField.tintColor = .sky
         view.searchBarStyle = .minimal
         return view
     }()
@@ -25,7 +24,6 @@ class LikeViewController: BaseViewController {
     lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout())
         view.register(DisplayItemCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        view.backgroundColor = .black
         return view
     }()
     
@@ -58,10 +56,9 @@ class LikeViewController: BaseViewController {
     }
 
     override func configView() {
+        super.configView()
         view.addSubview(searchBar)
         view.addSubview(collectionView)
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-        
         navigationItem.title = "좋아요 목록"
     }
     

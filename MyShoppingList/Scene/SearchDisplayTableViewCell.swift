@@ -1,13 +1,13 @@
 //
-//  DisplayItemCollectionViewCell.swift
-//  MyNaverShopping
+//  SearchDisplayTableViewCell.swift
+//  MyShoppingList
 //
-//  Created by 이은서 on 2023/09/15.
+//  Created by 이은서 on 3/14/24.
 //
 
 import UIKit
 
-class DisplayItemCollectionViewCell: UICollectionViewCell {
+class SearchDisplayTableViewCell: UITableViewCell {
     
     let productImage = {
         let view = UIImageView()
@@ -61,8 +61,8 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
     var completionHandler: ((UIButton) -> Void)?
     var isLiked = false
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configView()
         setConstraints()
     }
@@ -91,26 +91,28 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
     
     func setConstraints() {
         productImage.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(productImage.snp.width)
+            make.height.leading.equalToSuperview().inset(2)
+            make.width.equalTo(productImage.snp.height)
             make.top.equalToSuperview()
         }
         mallLabel.snp.makeConstraints { make in
-            make.top.equalTo(productImage.snp.bottom).offset(4)
-            make.horizontalEdges.equalToSuperview().inset(4)
+            make.top.equalTo(productImage.snp.top).offset(1)
+            make.leading.equalTo(productImage.snp.trailing).offset(4)
             
         }
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(mallLabel.snp.bottom)
-            make.horizontalEdges.equalToSuperview().inset(4)
+            make.top.equalTo(mallLabel.snp.bottom).offset(4)
+            make.leading.equalTo(productImage.snp.trailing).offset(4)
+            make.trailing.equalTo(likeButton.snp.leading).inset(4)
         }
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.horizontalEdges.equalToSuperview().inset(4)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.equalTo(productImage.snp.trailing).offset(4)
         }
         likeButton.snp.makeConstraints { make in
             make.size.equalTo(35)
-            make.bottom.trailing.equalTo(productImage).inset(8)
+            make.trailing.equalToSuperview().inset(8)
+            make.centerY.equalToSuperview()
         }
     }
     
@@ -122,6 +124,8 @@ class DisplayItemCollectionViewCell: UICollectionViewCell {
             return "" }
         return result
     }
+    
+    
     
     
 }
