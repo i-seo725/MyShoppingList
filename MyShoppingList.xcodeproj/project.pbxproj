@@ -80,7 +80,7 @@
 		F4CAA6962AB37DA200739474 = {
 			isa = PBXGroup;
 			children = (
-				F4CAA6A12AB37DA200739474 /* MyNaverShopping */,
+				F4CAA6A12AB37DA200739474 /* MyShoppingList */,
 				F4CAA6A02AB37DA200739474 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,7 +93,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F4CAA6A12AB37DA200739474 /* MyNaverShopping */ = {
+		F4CAA6A12AB37DA200739474 /* MyShoppingList */ = {
 			isa = PBXGroup;
 			children = (
 				F4CAA6E12AB3891700739474 /* Realm */,
@@ -108,7 +108,6 @@
 				F4CAA6AD2AB37DA200739474 /* LaunchScreen.storyboard */,
 				F4CAA6B02AB37DA200739474 /* Info.plist */,
 			);
-			name = MyNaverShopping;
 			path = MyShoppingList;
 			sourceTree = "<group>";
 		};
@@ -413,7 +412,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N54L2GS5Z3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyNaverShopping/Info.plist;
+				INFOPLIST_FILE = MyShoppingList/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "이은서";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -445,7 +444,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N54L2GS5Z3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyNaverShopping/Info.plist;
+				INFOPLIST_FILE = MyShoppingList/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "이은서";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
