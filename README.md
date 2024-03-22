@@ -1,6 +1,7 @@
 ## MyShoppingList - 나의 소중한 쇼핑 목록
-<img width="1018" alt=![Uploading recap2_screenshot.001.png…]()>
-
+<p align="center">
+ <img width="1018" align src="./recap2_screenshot.001.png">
+</p>
 
 ## 앱 소개
  * 원하는 상품을 검색하여 나만의 쇼핑 리스트 만들기
