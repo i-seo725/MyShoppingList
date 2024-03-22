@@ -11,17 +11,6 @@ import Kingfisher
 
 class RecentViewController: BaseViewController {
     
-    let searchBar = {
-        let view = UISearchBar()
-        view.placeholder = "검색어를 입력하세요"
-        view.searchTextField.borderStyle = .roundedRect
-        view.showsCancelButton = true
-        view.tintColor = .sky
-        view.searchTextField.tintColor = .sky
-        view.searchBarStyle = .minimal
-        return view
-    }()
-    
     lazy var collectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout())
         view.register(DisplayItemCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -42,17 +31,18 @@ class RecentViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        recentTable = realm.objects(RecentItem.self).sorted(by: \.date, ascending: false)
+//        checkNumberOfTable()
+//        collectionView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkNumberOfTable()
         collectionView.reloadData()
     }
     
     override func configView() {
         super.configView()
-        view.addSubview(searchBar)
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -60,16 +50,28 @@ class RecentViewController: BaseViewController {
     }
     
     override func setConstraints() {
-        searchBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
-        }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(14)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(14)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    func checkNumberOfTable() {
+        recentTable = realm.objects(RecentItem.self).sorted(by: \.date, ascending: false)
+        while recentTable.count > 30 {
+            let item = realm.objects(RecentItem.self).sorted(by: \.date, ascending: true).first!
+            do {
+                try realm.write {
+                    realm.delete(item)
+                }
+            } catch {
+                print(error)
+            }
+        }
+        recentTable = realm.objects(RecentItem.self).sorted(by: \.date, ascending: false)
+    }
+    
 }
 
 extension RecentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -97,11 +99,10 @@ extension RecentViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailViewController()
         let item = recentTable[indexPath.item]
-        vc.isLiked = true
+        vc.isLiked = false
         vc.productId = item.productId
         vc.itemTitle = item.title
-        vc.scene = .like
-//        vc.selectedItem = item
+        vc.scene = .search
         vc.thumbImage = loadImageFromDocument(fileName: "\(item.productId).jpg")
         navigationController?.pushViewController(vc, animated: true)
     }
