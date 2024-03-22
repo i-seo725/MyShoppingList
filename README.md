@@ -15,7 +15,7 @@
 ## 주요 기능
  * Realm DB를 통해 사용자가 좋아요 버튼을 탭한 상품 관리 및 최근 본 상품 목록 제공
  * Alamofire를 활용한 네이버 검색 API를 통해 상품 리스트 가져오기
- * KingFisher 라이브러리를 활용한 이미지 불러오기 및 캐싱
+ * Kingfisher 라이브러리를 활용한 이미지 불러오기 및 캐싱
  <br/>
 
 ## 개발 기간
@@ -31,7 +31,7 @@
 
 
 ## 사용기술 및 라이브러리
- * UIKit, Snapkit, Realm, Alamofire, KingFisher, MVC
+ * UIKit, Snapkit, Realm, Alamofire, Kingfisher, MVC
  <br/>
  
 ## 트러블 슈팅     
@@ -47,7 +47,7 @@
             }
         }
      ```
-   * KingFisher 라이브러리를 활용하여 이미지 캐싱 처리 및 코드 간결화
+   * Kingfisher 라이브러리를 활용하여 이미지 캐싱 처리 및 코드 간결화
      ```swift
      cell.productImage.kf.setImage(with: URL(string: item.image))
      ```
